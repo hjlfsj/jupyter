@@ -1,0 +1,7 @@
+/home/ribll2026/ribll2026_www/github_code/jupyter/build/CMakeFiles/check_time.dir
+/home/ribll2026/ribll2026_www/github_code/jupyter/build/CMakeFiles/edit_cache.dir
+/home/ribll2026/ribll2026_www/github_code/jupyter/build/CMakeFiles/rebuild_cache.dir
+/home/ribll2026/ribll2026_www/github_code/jupyter/build/CMakeFiles/list_install_components.dir
+/home/ribll2026/ribll2026_www/github_code/jupyter/build/CMakeFiles/install.dir
+/home/ribll2026/ribll2026_www/github_code/jupyter/build/CMakeFiles/install/local.dir
+/home/ribll2026/ribll2026_www/github_code/jupyter/build/CMakeFiles/install/strip.dir

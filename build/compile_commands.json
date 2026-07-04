@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/ribll2026/ribll2026_www/github_code/jupyter/build",
+  "command": "/usr/bin/g++ -I/home/ribll2026/develop/root/include   -pipe -fsigned-char -fsized-deallocation -pthread -g -std=gnu++17 -o CMakeFiles/check_time.dir/read_time.cpp.o -c /home/ribll2026/ribll2026_www/github_code/jupyter/macro/check_time/read_time.cpp",
+  "file": "/home/ribll2026/ribll2026_www/github_code/jupyter/macro/check_time/read_time.cpp"
+}
+]
