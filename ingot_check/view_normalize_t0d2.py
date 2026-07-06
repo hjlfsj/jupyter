@@ -1,35 +1,30 @@
 #!/usr/bin/env python3
-# """
-# t0d2 交互式 strip 查看器 (64条正面 + 64条背面)
+"""
+t0d2 交互式 strip 查看器 (64条正面 + 64条背面)
 
-# 用法:
-#     python view_t0d2.py
+用法:
+    python view_normalize_t0d2.py
 
-# 第一步: 处理 ROOT 文件并生成输出文件 (对应 notebook 第一个 cell)。
-# 第二步: 进入交互模式，命令行查看 strip。
+读取 ROOT 文件数据后进入交互模式。
 
-# 交互命令:
-#     f-<N>   : 查看 front strip N (0-63)
-#     b-<N>   : 查看 back strip N (0-63)
-#     <回车>  : 自动切换到下一条 (f-63 -> f-0, b-63 -> b-0)
-#     h/help  : 显示帮助
-#     q/quit  : 退出
-#     Ctrl+C  : 退出
-# """
+交互命令:
+    f-<N>   : 查看 front strip N (0-63)
+    b-<N>   : 查看 back strip N (0-63)
+    <回车>  : 自动切换到下一条 (f-63 -> f-0, b-63 -> b-0)
+    h/help  : 显示帮助
+    q/quit  : 退出
+    Ctrl+C  : 退出
+"""
 
 import ROOT
 import sys
-import os
 import re
 
 # ============================================================
-# Part 1: 处理数据 (对应 notebook 第一个 cell)
+# 读取数据
 # ============================================================
 
-INPUT_FILE = "/data/disk1/ribll2026_www_data/normalize/t0d2_t1_0060_0060.root"
-OUTPUT_DIR = "/home/ribll2026/ribll2026_www/github_code/jupyter/ingot_check/root_file"
-OUTPUT_FILE = os.path.join(OUTPUT_DIR, "normalize_t0d2.root")
-
+INPUT_FILE = "/data/disk1/ribll2026_www_data/normalize/t0d2_t1_0057_0066.root"
 NSTRIPS = 64  # d2 正面背面都是 64 条
 
 print("=" * 60)
@@ -39,60 +34,32 @@ if not f or f.IsZombie():
     print("ERROR: Cannot open input file!")
     sys.exit(1)
 
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-# print("Creating output file: {}".format(OUTPUT_FILE))
-# opt = ROOT.TFile(OUTPUT_FILE, "recreate")
-
 # 存储读取的对象
 gf = [None] * NSTRIPS
 resf = [None] * NSTRIPS
 gb = [None] * NSTRIPS
 resb = [None] * NSTRIPS
 
-print("\nProcessing {} strips...".format(NSTRIPS))
+print("Reading {} strips...".format(NSTRIPS))
 for i in range(NSTRIPS):
-    c1 = ROOT.TCanvas("c1_{}".format(i), "front_back_{}".format(i), 1000, 500)
-    c2 = ROOT.TCanvas("c2_{}".format(i), "front_back_{}".format(i), 1000, 500)
-    c1.Divide(2, 1)
-    c2.Divide(2, 1)
-
     gf[i] = f.Get("gf{}".format(i))
     resf[i] = f.Get("resf{}".format(i))
 
     if not gf[i] or not resf[i]:
         print("  Warning: Cannot find gf{} or resf{}".format(i, i))
-        continue
-
-    c1.cd(1)
-    gf[i].SetTitle("front strip {}".format(i))
-    # gf[i].Draw("AP*")
-    c1.cd(2)
-    # resf[i].Draw()
 
     gb[i] = f.Get("gb{}".format(i))
     resb[i] = f.Get("resb{}".format(i))
 
     if not gb[i] or not resb[i]:
         print("  Warning: Cannot find gb{} or resb{}".format(i, i))
-        continue
 
-    c2.cd(1)
-    gb[i].SetTitle("back strip {}".format(i))
-    # gb[i].Draw("AP*")
-    c2.cd(2)
-    # resb[i].Draw()
-
-    # opt.cd()
-    # c1.Write("front{:02d}".format(i))
-    # c2.Write("back{:02d}".format(i))
-
-# opt.Close()
-print("Output file created: {}".format(OUTPUT_FILE))
+print("Data loaded.")
 print("=" * 60)
 
 
 # ============================================================
-# Part 2: 交互式查看模式
+# 交互式查看模式
 # ============================================================
 
 def show_help():
@@ -148,6 +115,8 @@ def show_strip(strip_type, index):
         return
 
     gr.SetTitle(title)
+    gr.GetXaxis().SetLimits(0, 70000)
+    gr.GetYaxis().SetRangeUser(0, 70000)  
     gr.Draw("AP*")
     c_view.cd(2)
     hist.Draw()
